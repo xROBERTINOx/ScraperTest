@@ -1,5 +1,5 @@
 import requests
-#python -m pip install beautifulsoup4
+# python -m pip install beautifulsoup4
 from bs4 import BeautifulSoup
 URL = "https://public.com/crypto/"
 page = requests.get(URL)
@@ -7,11 +7,24 @@ soup= BeautifulSoup(page.content, "html.parser")
 results = soup.find(id="page-wrap")
 cryptoStats = results.find_all("div", class_="content-wrap")
 
-#add input from user for which coin and what stats user wants
+dictOfTickerToLastPrices = {}
+dictOfNameToTicker = {}
+  
+# add 24 hour change 
 for cryptoStat in cryptoStats:
   lastPrice = cryptoStat.find("span", class_="last-price")
   name = cryptoStat.find("div", class_="name")
-  labelTicker = cryptoStat.find("div", class_="label ticker")
-  print("The last price of " + str(name.text.strip()) + "(" + str(labelTicker.text.strip().upper()) + ")" + " is: " + str(lastPrice.text.strip()))
-  print()
+  ticker = cryptoStat.find("div", class_="label ticker")
+  dictOfTickerToLastPrices[ticker.text.strip().lower()] = lastPrice.text.strip()
+  dictOfNameToTicker[name.text.strip().lower()] = ticker.text.strip().lower()
 
+
+while True:  
+  userInputNameOfCoin = input("Which coin would you like to see the statistics for?: ").lower()
+  if userInputNameOfCoin not in dictOfNameToTicker and userInputNameOfCoin not in dictOfTickerToLastPrices:
+    print("That is not a valid coin name")
+  elif userInputNameOfCoin not in dictOfTickerToLastPrices :
+    ticker = dictOfNameToTicker[userInputNameOfCoin]
+  elif userInputNameOfCoin in dictOfTickerToLastPrices:
+    print(dictOfTickerToLastPrices[userInputNameOfCoin])
+    
