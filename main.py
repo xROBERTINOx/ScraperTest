@@ -1,29 +1,17 @@
 import requests
 #python -m pip install beautifulsoup4
 from bs4 import BeautifulSoup
-URL = "https://realpython.github.io/fake-jobs/"
+URL = "https://public.com/crypto/"
 page = requests.get(URL)
-soup = BeautifulSoup(page.content, "html.parser")
-results = soup.find(id="ResultsContainer")
-job_elements = results.find_all("div", class_="card-content")
+soup= BeautifulSoup(page.content, "html.parser")
+results = soup.find(id="page-wrap")
+cryptoStats = results.find_all("div", class_="content-wrap")
 
-fromUser = int(input("What do you to find by:\n1 title\n2 company\n3 location"))
-if fromUser == 1:
-  byWhat = "title"
-elif fromUser == 2:
-  byWhat = "company"
-elif fromUser == 3:
-  byWhat = "location"
-else:
-  print("huh?")
-  exit()
-
-for job_element in job_elements:
-  title_element = job_element.find("h2", class_="title")
-  company_element = job_element.find("h3", class_="company")
-  location_element = job_element.find("p", class_="location")
-  print(title_element.text.strip())
-  print(company_element.text.strip())
-  print(location_element.text.strip())
+#add input from user for which coin and what stats user wants
+for cryptoStat in cryptoStats:
+  lastPrice = cryptoStat.find("span", class_="last-price")
+  name = cryptoStat.find("div", class_="name")
+  labelTicker = cryptoStat.find("div", class_="label ticker")
+  print("The last price of " + str(name.text.strip()) + "(" + str(labelTicker.text.strip().upper()) + ")" + " is: " + str(lastPrice.text.strip()))
   print()
 
