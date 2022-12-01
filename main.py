@@ -1,3 +1,4 @@
+# public.com/crypto is the website I am using for crypto prices, I am not using it with an account
 import requests
 # python -m pip install beautifulsoup4
 from bs4 import BeautifulSoup
