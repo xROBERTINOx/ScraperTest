@@ -12,7 +12,6 @@ cryptoStats = results.find_all("div", class_="content-wrap")
 dictOfTickerToLastPrices = {}
 dictOfNameToTicker = {}
 
-# add 24 hour change F(X) 
 # add check for price change of other times (week)
 for cryptoStat in cryptoStats:
   lastPrice = cryptoStat.find("span", class_="last-price")
@@ -31,6 +30,6 @@ while True:
     print("That is not a valid coin name")
   elif userInputNameOfCoin not in dictOfTickerToLastPrices:
     ticker = dictOfNameToTicker[userInputNameOfCoin]
-    print(dictOfTickerToLastPrices[ticker])
+    print("The current price of " + userInputNameOfCoin.lower() + " is " + dictOfTickerToLastPrices[ticker][0] + ", and the % change in the last 24 hours is " + dictOfTickerToLastPrices[ticker][1])
   elif userInputNameOfCoin in dictOfTickerToLastPrices:
-    print(dictOfTickerToLastPrices[userInputNameOfCoin])
+    print("The current price of " + userInputNameOfCoin.upper() + " is " + dictOfTickerToLastPrices[userInputNameOfCoin][0] + ", and the % change in the last 24 hours is " + dictOfTickerToLastPrices[userInputNameOfCoin][1])
